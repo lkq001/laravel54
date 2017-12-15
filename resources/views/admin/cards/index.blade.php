@@ -13,6 +13,11 @@
                     <button id="cards-add" class="btn btn-info m-b-5" style="float: right">添加用户</button>
                 </div>
                 <div class="panel-body">
+
+                    <!-- 添加 -->
+                @include('admin.cards.add')
+                <!-- 修改 -->
+                    @include('admin.cards.edit')
                     <div class="row">
                         <div class="col-md-12 col-sm-12 col-xs-12">
                             <table id="datatable" class="table table-striped table-bordered">
@@ -51,4 +56,16 @@
         </div>
 
     </div> <!-- End Row -->
+@endsection
+
+@section('script')
+    <script src="{{ asset('admins') }}/js/cards.js"></script>
+    <script id="ueditor"></script>
+    <script>
+        var ue=UE.getEditor("ueditor");
+        ue.ready(function(){
+            //因为Laravel有防csrf防伪造攻击的处理所以加上此行
+            ue.execCommand('serverparam','_token','{{ csrf_token() }}');
+        });
+    </script>
 @endsection
