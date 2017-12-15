@@ -1,5 +1,5 @@
 @extends('admin.layouts.index')
-@section('page-title', '卡包分类管理')
+@section('page-title', '宅配卡分类管理')
 @section('style')
     <link href="{{ asset('style/admin') }}/css/sweet-alert.min.css" rel="stylesheet"/>
 @endsection

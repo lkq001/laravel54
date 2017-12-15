@@ -16,12 +16,12 @@
             </li>
             <li class="has-submenu">
                 <a href="#"><i class="zmdi zmdi-format-underlined"></i> <span
-                            class="nav-label">卡包管理</span><span class="menu-arrow"></span></a>
+                            class="nav-label">宅配卡管理</span><span class="menu-arrow"></span></a>
                 <ul class="list-unstyled">
-                    <li><a href="{{ route('admin.cards.index') }}">卡包列表</a></li>
-                    <li><a href="{{ route('admin.cards.category.index') }}">卡包分类</a></li>
-                    <li><a href="ui-buttons.html">卡包类型</a></li>
-                    <li><a href="{{ route('admin.card.excel.index') }}">导入卡包列表</a></li>
+                    <li><a href="{{ route('admin.cards.index') }}">宅配卡列表</a></li>
+                    <li><a href="{{ route('admin.cards.category.index') }}">宅配卡分类</a></li>
+                    <li><a href="ui-buttons.html">宅配卡类型</a></li>
+                    <li><a href="{{ route('admin.card.excel.index') }}">导入宅配卡列表</a></li>
                     <li><a href="ui-icons.html">用卡计划列表</a></li>
                 </ul>
             </li>

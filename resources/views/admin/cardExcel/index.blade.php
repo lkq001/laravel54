@@ -1,5 +1,5 @@
 @extends('admin.layouts.index')
-@section('page-title', '卡包分类管理')
+@section('page-title', '宅配卡分类管理')
 @section('style')
     <link href="{{ asset('style/admin') }}/css/sweet-alert.min.css" rel="stylesheet"/>
 @endsection
@@ -25,8 +25,7 @@
                                 <thead>
                                 <tr>
                                     <th>ID</th>
-                                    <th>分类名称</th>
-                                    <th>操作</th>
+                                    <th>卡号</th>
                                 </tr>
                                 </thead>
 
@@ -37,17 +36,14 @@
                                         <tr>
                                             <td>{{ $card->id }}</td>
                                             <td>{{ $card->code }}</td>
-                                            <td>
-                                                <button id="card-categorys-edit" class="btn-xs btn-info btn-rounded m-b-5" data-id="{{ $card->id }}" data-url="{{ route('admin.cards.category.edit') }}">编辑</button>
-                                                <button id="card-categorys-destroy" class="btn-xs btn-danger btn-rounded m-b-5" data-id="{{ $card->id }}" data-url="{{ route('admin.cards.category.destroy') }}">删除</button>
-                                            </td>
+
                                         </tr>
                                     @endforeach
 
                                 @else
 
                                     <tr>
-                                        <td colspan="3">暂无宅配卡分类</td>
+                                        <td colspan="3">暂无宅配卡</td>
                                     </tr>
 
                                 @endif

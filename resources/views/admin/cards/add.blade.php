@@ -8,9 +8,10 @@
             </div>
             <div class="modal-body">
 
-                <form class="cmxform form-horizontal tasi-form" action="{{ route('admin.cards.store') }}" method="post">
+                <form class="cmxform form-horizontal tasi-form" action="{{ route('admin.cards.store') }}" method="post"
+                      enctype="multipart/form-data">
                     {{ csrf_field() }}
-                    <div class="form-group ">
+                    <div class=" form-group">
                         <label for="cname" class="control-label col-lg-2">分类选择</label>
                         <div class="col-lg-10">
                             <select class="form-control" name="category_id">
@@ -32,6 +33,27 @@
                     </div>
 
                     <div class="form-group ">
+                        <label for="cname" class="control-label col-lg-2">价格</label>
+                        <div class="col-lg-10">
+                            <input class=" form-control" name="price" type="text" required="" aria-required="true">
+                        </div>
+                    </div>
+
+                    <div class="form-group ">
+                        <label for="cname" class="control-label col-lg-2">次数</label>
+                        <div class="col-lg-10">
+                            <input class=" form-control" name="number" type="text" required="" aria-required="true">
+                        </div>
+                    </div>
+
+                    <div class="form-group ">
+                        <label for="cname" class="control-label col-lg-2">图片</label>
+                        <div class="col-lg-10">
+                            <input class=" form-control" name="image" type="file" required="" aria-required="true">
+                        </div>
+                    </div>
+
+                    <div class="form-group ">
                         <label for="cname" class="control-label col-lg-2">宅配卡描述</label>
                         <div class="col-lg-10">
                             <div id="ueditor" class="edui-default">
@@ -41,7 +63,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                        <input type="submit" class="btn btn-primary" value="添加" />
+                        <input type="submit" class="btn btn-primary" value="添加"/>
                     </div>
                 </form>
 

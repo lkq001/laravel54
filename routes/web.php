@@ -23,6 +23,12 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin'], function () {
     Route::get('/cards', 'CardsController@index')->name('admin.cards.index');
     // 宅配卡添加
     Route::post('/cards/store', 'CardsController@store')->name('admin.cards.store');
+    // 宅配卡修改
+    Route::get('/cards/edit', 'CardsController@edit')->name('admin.cards.edit');
+    // 宅配卡删除
+    Route::delete('/cards/destroy', 'CardsController@destroy')->name('admin.cards.destroy');
+    // 宅配卡保存
+    Route::post('/cards/update', 'CardsController@update')->name('admin.cards.update');
 
 
     // 宅配卡分类
