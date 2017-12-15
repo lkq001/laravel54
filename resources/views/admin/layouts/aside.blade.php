@@ -21,7 +21,7 @@
                     <li><a href="{{ route('admin.cards.index') }}">卡包列表</a></li>
                     <li><a href="{{ route('admin.cards.category.index') }}">卡包分类</a></li>
                     <li><a href="ui-buttons.html">卡包类型</a></li>
-                    <li><a href="ui-icons.html">导入卡包列表</a></li>
+                    <li><a href="{{ route('admin.card.excel.index') }}">导入卡包列表</a></li>
                     <li><a href="ui-icons.html">用卡计划列表</a></li>
                 </ul>
             </li>

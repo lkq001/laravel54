@@ -11,14 +11,13 @@
                     <h3 class="panel-title"></h3>
                 </div>
                 <div class="panel-body">
-                    <button id="cards-category-add" class="btn btn-info m-b-5" style="float: right">导入宅配卡</button>
+                    <a href="{{ route('admin.card.excel.export') }}" class="btn btn-info m-b-5" style="float: right">宅配卡模板</a>
+                    <button id="cards-excel-import" class="btn btn-info m-b-5" style="float: right; margin-right: 10px;">导入宅配卡</button>
                 </div>
                 <div class="panel-body">
 
-                    <!-- 添加 -->
-                    @include('admin.cardCategory.add')
-                    <!-- 修改 -->
-                    @include('admin.cardCategory.edit')
+                    <!-- 导入 -->
+                    @include('admin.cardExcel.import')
 
                     <div class="row">
                         <div class="col-md-12 col-sm-12 col-xs-12">
@@ -37,7 +36,7 @@
                                     @foreach($cardExcel as $card)
                                         <tr>
                                             <td>{{ $card->id }}</td>
-                                            <td>{{ $card->name }}</td>
+                                            <td>{{ $card->code }}</td>
                                             <td>
                                                 <button id="card-categorys-edit" class="btn-xs btn-info btn-rounded m-b-5" data-id="{{ $card->id }}" data-url="{{ route('admin.cards.category.edit') }}">编辑</button>
                                                 <button id="card-categorys-destroy" class="btn-xs btn-danger btn-rounded m-b-5" data-id="{{ $card->id }}" data-url="{{ route('admin.cards.category.destroy') }}">删除</button>
@@ -67,5 +66,5 @@
 @endsection
 
 @section('script')
-    <script src="{{ asset('admins') }}/js/cardsCategory.js"></script>
+    <script src="{{ asset('admins') }}/js/cardExcel.js"></script>
 @endsection

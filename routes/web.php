@@ -15,7 +15,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::group(['namespace' => 'Admin', 'prefix' => 'admin'], function (){
+Route::group(['namespace' => 'Admin', 'prefix' => 'admin'], function () {
     // 后台首页
     Route::get('/', 'IndexController@index')->name('admin.index');
 
@@ -23,7 +23,6 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin'], function (){
     Route::get('/cards', 'CardsController@index')->name('admin.cards.index');
     // 宅配卡添加
     Route::post('/cards/store', 'CardsController@store')->name('admin.cards.store');
-
 
 
     // 宅配卡分类
@@ -39,5 +38,9 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin'], function (){
 
 
     // 宅配卡导入列表
-    Route::get('/card/excel', 'CardExcelController@index')->name('card.excel.index');
+    Route::get('/card/excel', 'CardExcelController@index')->name('admin.card.excel.index');
+    // 导出
+    Route::get('/card/excel/export', 'CardExcelController@export')->name('admin.card.excel.export');
+    // 导入
+    Route::post('/card/excel/import', 'CardExcelController@import')->name('admin.card.excel.import');
 });
