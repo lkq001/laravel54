@@ -36,7 +36,7 @@
                                     <tr>
                                         <td>{{ $banner->id }}</td>
                                         <td>{{ $banner->name }}</td>
-                                        <td>{{ $banner->image }}</td>
+                                        <td><img src="{{ 'http://p0ztvlsi6.bkt.clouddn.com/' . $banner->image }}" style="width: 100px" alt=""></td>
                                         <td>
 
                                             @if( $banner->status  == 1)

@@ -11,9 +11,13 @@
 |
 */
 
+
+
 // qpi 接口 用于微信小程序
 Route::group(['namespace' => 'Api\V1', 'prefix' => 'api'], function () {
     Route::get('/banner', 'BannerController@getBanner');
+    // Token
+    Route::get('/token/user', 'TokenController@getToken');
 });
 
 Route::get('/', function () {
@@ -88,7 +92,7 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin'], function () {
     // 幻灯片删除
     Route::delete('/banners/destroy', 'BannersController@destroy')->name('admin.banners.destroy');
     // 幻灯片保存
-    Route::put('/banners/update', 'BannersController@update')->name('admin.banners.update');
+    Route::post('/banners/update', 'BannersController@update')->name('admin.banners.update');
 
     // 用户-宅配卡管理
     Route::get('/user/cards', 'UserCardsController@index')->name('admin.user.cards.index');

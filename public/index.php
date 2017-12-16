@@ -1,5 +1,5 @@
 <?php
-
+// 允许所有访问
 /**
  * Laravel - A PHP Framework For Web Artisans
  *

@@ -165,6 +165,8 @@ return [
 
         Stevenyangecho\UEditor\UEditorServiceProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,
+        zgldh\QiniuStorage\QiniuFilesystemServiceProvider::class,
+
 
         /*
          * Package Service Providers...
