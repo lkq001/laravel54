@@ -11,14 +11,12 @@
 |
 */
 
-
-
 // qpi 接口 用于微信小程序
-Route::group(['namespace' => 'Api\V1', 'prefix' => 'api'], function () {
-    Route::get('/banner', 'BannerController@getBanner');
-    // Token
-    Route::get('/token/user', 'TokenController@getToken');
-});
+//Route::group(['namespace' => 'Api\V1', 'prefix' => 'wx'], function () {
+//    Route::get('/banner', 'BannerController@getBanner');
+//    // Token
+//    Route::post('/token/user', 'TokenController@getToken');
+//});
 
 Route::get('/', function () {
     return view('welcome');

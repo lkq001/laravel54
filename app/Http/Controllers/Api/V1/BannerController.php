@@ -8,6 +8,7 @@
  * Time: 12:46
  * author 李克勤
  */
+
 namespace App\Http\Controllers\Api\V1;
 
 use App\Model\Banners;
@@ -18,6 +19,11 @@ class BannerController
     {
         $banner = Banners::get(['image']);
 
+        if ($banner) {
+            foreach ($banner as $value) {
+                $value->image = config('filesystems.disks.qiniu.domains.default') .'/'. $value->image;
+            }
+        }
         return $banner;
     }
 }

@@ -16,3 +16,12 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+// qpi 接口 用于微信小程序
+Route::group(['namespace' => 'Api\V1'], function () {
+    Route::get('/banner', 'BannerController@getBanner');
+    // Token
+    Route::post('/token/user', 'TokenController@getToken');
+    // 修改地址
+    Route::post('/user/address', 'UserAddressController@createOrUpdateAddress');
+});

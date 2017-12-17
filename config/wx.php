@@ -11,7 +11,6 @@
 
 return [
     'app_id' => env('WX_APPID'),
-    'app_secret' => env('WX_AppSECRET'),
-    'login_url' => 'https://api.weixin.qq.com/sns/jscode2session?appid=%s&secret=$s&js_code=$s&grant_type=authorization_code',
-
-];
+    'app_secret' => env('WX_APPSECRET'),
+    'login_url' => 'https://api.weixin.qq.com/sns/jscode2session?appid=%s&secret=%s&js_code=%s&grant_type=authorization_code'
+ ];
