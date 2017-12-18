@@ -44,9 +44,9 @@
                                         <td>
 
                                             @if( $card->status  == 1)
-                                                未上架
-                                            @else
                                                 已上架
+                                            @else
+                                                已下架
                                             @endif
                                         </td>
                                         <td>

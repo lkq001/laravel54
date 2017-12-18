@@ -19,7 +19,16 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 // qpi 接口 用于微信小程序
 Route::group(['namespace' => 'Api\V1'], function () {
+    // 获取轮播图
     Route::get('/banner', 'BannerController@getBanner');
+
+
+    // 获取宅配卡列表
+    Route::get('/cards', 'CardsController@getCards');
+    // 获取宅配卡信息
+    Route::get('/card/{id}', 'CardsController@getOneCardById');
+
+
     // Token
     Route::post('/token/user', 'TokenController@getToken');
     // 修改地址

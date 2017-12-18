@@ -76,14 +76,17 @@ class BannersController extends Controller
 
         $banners->name = $request->name;
 
-        $disk = QiniuStorage::disk('qiniu');
+        if ($request->image) {
+            $disk = QiniuStorage::disk('qiniu');
 
-        $disk->delete($banners->image);
+            $disk->delete($banners->image);
 
-        $path = $disk->put('lvxingzhe', $request->image);
+            $path = $disk->put('lvxingzhe', $request->image);
 
-        // 文件是否上传成功
-        $banners->image = $path;
+            // 文件是否上传成功
+            $banners->image = $path;
+        }
+
 
         if ($banners->save()) {
             return back();

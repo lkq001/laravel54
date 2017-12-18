@@ -6,6 +6,7 @@ use App\Model\CardCategorys;
 use App\Model\Cards;
 use Illuminate\Http\Request;
 
+use zgldh\QiniuStorage\QiniuStorage;
 use Storage;
 
 class CardsController extends Controller
@@ -34,39 +35,19 @@ class CardsController extends Controller
         $cards->number = $request->number;
         $cards->number_count = $request->number;
 
-        // 图片上传
-        $file = $request->file('image');
+        if ($request->image) {
 
-        // 文件是否上传成功
-        if ($file->isValid()) {
+            $disk = QiniuStorage::disk('qiniu');
 
-            // 获取文件相关信息
-            $originalName = $file->getClientOriginalName(); // 文件原名
-            $ext = $file->getClientOriginalExtension();     // 扩展名
-            $realPath = $file->getRealPath();   //临时文件的绝对路径
-            $type = $file->getClientMimeType();     // image/jpeg
+            $path = $disk->put('lvxingzhe', $request->image);
 
-            // 上传文件
-            $filename = date('Y-m-d-H-i-s') . '-' . uniqid() . '.' . $ext;
-            // 使用我们新建的uploads本地存储空间（目录）
-            $bool = Storage::disk('uploads')->put($filename, file_get_contents($realPath));
-
-            if ($bool) {
-                $cards->image = $filename;
-            }
+            // 文件是否上传成功
+            $cards->image = $path;
         }
 
-        if ($cards->save()) {
-            return response()->json([
-                'status' => '200',
-                'message' => '添加成功!'
-            ]);
-        }
+        $cards->save();
 
-        return response()->json([
-            'status' => '201',
-            'message' => '添加失败!'
-        ]);
+        return back();
     }
 
     /**
@@ -121,32 +102,20 @@ class CardsController extends Controller
         $cards->number_count = $request->number;
 
         if ($request->image) {
-            // 图片上传
-            $file = $request->file('image');
+
+            $disk = QiniuStorage::disk('qiniu');
+
+            $disk->delete($cards->image);
+
+            $path = $disk->put('lvxingzhe', $request->image);
 
             // 文件是否上传成功
-            if ($file->isValid()) {
-
-                // 获取文件相关信息
-                $originalName = $file->getClientOriginalName(); // 文件原名
-                $ext = $file->getClientOriginalExtension();     // 扩展名
-                $realPath = $file->getRealPath();   //临时文件的绝对路径
-                $type = $file->getClientMimeType();     // image/jpeg
-
-                // 上传文件
-                $filename = date('Y-m-d-H-i-s') . '-' . uniqid() . '.' . $ext;
-                // 使用我们新建的uploads本地存储空间（目录）
-                $bool = Storage::disk('uploads')->put($filename, file_get_contents($realPath));
-
-                if ($bool) {
-                    $cards->image = $filename;
-                }
-            }
+            $cards->image = $path;
         }
 
-        if ($cards->save()) {
-            return back();
-        }
+
+        $cards->save();
+        return back();
     }
 
     /**
