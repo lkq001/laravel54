@@ -11,20 +11,21 @@
 |
 */
 
-// qpi 接口 用于微信小程序
-//Route::group(['namespace' => 'Api\V1', 'prefix' => 'wx'], function () {
-//    Route::get('/banner', 'BannerController@getBanner');
-//    // Token
-//    Route::post('/token/user', 'TokenController@getToken');
-//});
+Route::group(['namespace' => 'Admin'], function () {
+    Route::get('/login', 'LoginController@login')->name('login');
+    Route::get('/toLogin', 'LoginController@login')->name('toLogin');
 
-Route::get('/', function () {
-    return view('welcome');
 });
+Route::get('/', function () {
+    return view('admin.login.index');
+});
+
+
 
 // 后台
 
 Route::group(['namespace' => 'Admin', 'prefix' => 'admin'], function () {
+
     // 后台首页
     Route::get('/', 'IndexController@index')->name('admin.index');
 
