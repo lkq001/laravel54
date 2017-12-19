@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
+
 class LoginController extends Controller
 {
     //
@@ -15,6 +16,11 @@ class LoginController extends Controller
 
     public function toLogin(Request $request)
     {
-        dd($request->all());
+        $this->validate($request, [
+            'username' => 'required',
+            'password' => 'required',
+        ]);
+
+        return $request->all();
     }
 }

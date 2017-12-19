@@ -33,4 +33,9 @@ Route::group(['namespace' => 'Api\V1'], function () {
     Route::post('/token/user', 'TokenController@getToken');
     // 修改地址
     Route::post('/user/address', 'UserAddressController@createOrUpdateAddress');
+
+    // 支付接口
+    Route::post('/order', 'OrderController@placeOrder');
+
+
 });

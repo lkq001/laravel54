@@ -13,7 +13,7 @@
 
 Route::group(['namespace' => 'Admin'], function () {
     Route::get('/login', 'LoginController@login')->name('login');
-    Route::get('/toLogin', 'LoginController@login')->name('toLogin');
+    Route::post('/toLogin', 'LoginController@toLogin')->name('toLogin');
 
 });
 Route::get('/', function () {

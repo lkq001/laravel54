@@ -100,14 +100,16 @@
     <h2 class="mg-b20 text-center"></h2>
     <div class="col-sm-8 col-md-5 center-auto pd-sm-50 pd-xs-20 main_content">
         <p class="text-center font16">用户登录</p>
-        <form>
+        <form action="{{ route('toLogin') }}" method="post" >
+            @include('admin.public.error')
+            {{ csrf_field() }}
             <div class="form-group mg-t20">
                 <i class="icon-user icon_font"></i>
-                <input type="email" class="login_input" id="Email1" placeholder="请输入用户名"/>
+                <input type="text" name="username" class="login_input" placeholder="请输入用户名"/>
             </div>
             <div class="form-group mg-t20">
                 <i class="icon-lock icon_font"></i>
-                <input type="password" class="login_input" id="Password1" placeholder="请输入密码"/>
+                <input type="password" name="password" class="login_input" placeholder="请输入密码"/>
             </div>
             <button type="submit" class="login_btn">登 录</button>
         </form>

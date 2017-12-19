@@ -11,7 +11,6 @@ class TokenController extends Controller
     //
     public function getToken(Request $request)
     {
-
         $this->validate($request, [
             'code' => 'required',
         ]);

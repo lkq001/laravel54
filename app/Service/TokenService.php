@@ -62,6 +62,63 @@ class TokenService
     {
         // $token
         $uid = self::getCurrentTokenVal('uid');
+
         return $uid;
+    }
+
+    /**
+     * 用户和cms管理员都可以访问全新啊
+     *
+     * @return array|bool
+     * author 李克勤
+     */
+    public static function needPrimaryScope()
+    {
+        $scope = self::getCurrentTokenVal('scope');
+        if ($scope) {
+            if ($scope >= config('scope.user')) {
+                return true;
+            } else {
+                return [
+                    'code' => '403',
+                    'msg' => '权限不够',
+                    'errorCode' => '10001'
+                ];
+            }
+        } else {
+            return [
+                'code' => '401',
+                'msg' => 'Token已过期或无效Token',
+                'errorCode' => '10001'
+            ];
+        }
+    }
+
+    /**
+     * 只有用户可以访问的全新啊
+     *
+     * @return array|bool
+     * author 李克勤
+     */
+    public static function needExclusiveScope()
+    {
+        $scope = self::getCurrentTokenVal('scope');
+        if ($scope) {
+            if ($scope == config('scope.user')) {
+                return true;
+            } else {
+                return [
+                    'code' => '403',
+                    'msg' => '权限不够',
+                    'errorCode' => '10001'
+                ];
+            }
+        } else {
+            return [
+                'code' => '401',
+                'msg' => 'Token已过期或无效Token',
+                'errorCode' => '10001'
+            ];
+        }
     }
 }

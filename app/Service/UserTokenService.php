@@ -21,15 +21,15 @@ class UserTokenService extends TokenService
 {
     protected $code;
     protected $wxAppId;
-    protected $wxAppSecert;
+    protected $wxAppSecret;
     protected $wxLoginUrl;
 
     function __construct($code)
     {
         $this->code = $code;
         $this->wxAppId = config('wx.app_id');
-        $this->wxAppSecert = config('wx.app_secret');
-        $this->wxLoginUrl = sprintf(config('wx.login_url'), $this->wxAppId, $this->wxAppSecert, $this->code);
+        $this->wxAppSecret = config('wx.app_secret');
+        $this->wxLoginUrl = sprintf(config('wx.login_url'), $this->wxAppId, $this->wxAppSecret, $this->code);
     }
 
     public function get()
