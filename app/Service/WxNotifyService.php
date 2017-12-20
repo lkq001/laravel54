@@ -13,7 +13,6 @@ namespace App\Service;
 
 
 use App\Model\Order;
-use App\Model\OrderProduct;
 use Illuminate\Support\Facades\DB;
 use WxPayNotify;
 
@@ -52,9 +51,7 @@ class WxNotifyService extends WxPayNotify
 
     private function reduceStock($stockStatus)
     {
-        \Log::info($stockStatus['pStatusArray']);
         foreach ($stockStatus['pStatusArray'] as $singlePStatus) {
-            \Log::info($singlePStatus);
             DB::table('cards')->where('id', $singlePStatus['id'])->decrement('stock', $singlePStatus['counts']);
         }
     }
@@ -63,7 +60,7 @@ class WxNotifyService extends WxPayNotify
     {
         $status = $success ? config('order.status.PAID') : config('order.status.PAID_BUT_OUT_OF');
 
-        OrderProduct::where('id', $orderID)
+        Order::where('id', $orderID)
             ->update(['status' => $status]);
     }
 
