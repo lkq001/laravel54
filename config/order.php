@@ -17,6 +17,6 @@ return [
         // 已发货
         'DELIVERED' => 3,
         // 已支付,但是库存不足
-        'PATH_BUT_OUT_OF' => 4
+        'PAID_BUT_OUT_OF' => 4
     ]
 ];
