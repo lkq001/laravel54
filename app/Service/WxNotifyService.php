@@ -16,8 +16,9 @@ use App\Model\Cards;
 use App\Model\Order;
 use App\Model\OrderProduct;
 use Illuminate\Support\Facades\DB;
+use WxPayNotify;
 
-class WxNotifyService extends \WxPayNotify
+class WxNotifyService extends WxPayNotify
 {
     public function NotifyProcess($data, &$msg)
     {

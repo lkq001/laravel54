@@ -37,17 +37,17 @@ class PayController extends Controller
         return $payment->pay();
     }
 
-    public function redirectNotify()
+    public function receiveNotify()
     {
         $notify = new WxNotifyService();
         $notify->Handle();
     }
 
-    public function receiveNotify()
-    {
-        $xmlData = file_get_contents('php://input');
-        $result = curl_post_raw('http:/z.cn/api/v1/pay/re_notify?XDEBUG_SESSION_START=13322',
-            $xmlData);
-
-    }
+//    public function receiveNotify()
+//    {
+//        $xmlData = file_get_contents('php://input');
+//        $result = curl_post_raw('http:/lkq.laravel54.com/api/pay/re_notify?XDEBUG_SESSION_START=13322',
+//            $xmlData);
+//
+//    }
 }
