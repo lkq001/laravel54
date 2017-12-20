@@ -27,6 +27,21 @@ class OrderController extends BaseController
 
     public function placeOrder(Request $request)
     {
+        // 数据验证
+        if (is_array($request->products)) {
+
+            foreach (collect($request->products)->toArray() as $product) {
+                if (!is_numeric($product['count']) || $product['count'] <= 0 || !is_numeric($product['product_id']) || $product['product_id'] <= 0) {
+                    return [
+                        'code' => '404',
+                        'msg' => '商品信息不错',
+                        'errorCode' => '80000'
+                    ];
+                }
+            }
+
+        }
+
         $products = $request->products;
 
         $uid = TokenService::getCurrnentUid('uid');

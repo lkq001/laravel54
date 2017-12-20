@@ -121,4 +121,28 @@ class TokenService
             ];
         }
     }
+
+    /**
+     * 检测 UID 是否正确
+     *
+     * @param $checkedUID
+     * @return array|bool
+     * author 李克勤
+     */
+    public static function isValidPoerate($checkedUID)
+    {
+        if (!$checkedUID) {
+            return [
+                'code' => '403',
+                'msg' => '检测UID必须传入一个被检测的UID',
+                'errorCode' => '10001'
+            ];
+        }
+        $currentOperateUID = self::getCurrnentUid();
+
+        if ($currentOperateUID == $checkedUID) {
+            return true;
+        }
+        return false;
+    }
 }

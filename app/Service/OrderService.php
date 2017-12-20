@@ -55,8 +55,7 @@ class OrderService
     private function getProductsByOrder($oProducts)
     {
         $oPIDs = [];
-        foreach ($oProducts as $item)
-        {
+        foreach ($oProducts as $item) {
             array_push($oPIDs, $item['product_id']);
         }
 
@@ -226,5 +225,22 @@ class OrderService
             ];
         }
         return $userAddress->toArray();
+    }
+
+    /**
+     * 库存量检测 公用方法/对外暴漏
+     *
+     * @param $orderID
+     * @return array
+     * author 李克勤
+     */
+    public function checkOrderStock($orderID)
+    {
+        $oProducts = OrderProduct::where('order_id', $orderID)->get();
+        $this->oProducts = $oProducts;
+
+        $this->products = $this->getProductsByOrder($oProducts);
+
+        return $this->getOrderStatus();
     }
 }
