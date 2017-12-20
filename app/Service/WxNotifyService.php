@@ -12,7 +12,6 @@
 namespace App\Service;
 
 
-use App\Model\Cards;
 use App\Model\Order;
 use App\Model\OrderProduct;
 use Illuminate\Support\Facades\DB;
@@ -24,7 +23,6 @@ class WxNotifyService extends WxPayNotify
     {
         if ($data['result_code'] == 'SUCCESS') {
             $orderNo = $data['out_trade_no'];
-            \Log::info($orderNo);
             DB::beginTransaction();
             try {
                 $order = Order::where('order_no', $orderNo)
@@ -54,20 +52,16 @@ class WxNotifyService extends WxPayNotify
 
     private function reduceStock($stockStatus)
     {
+        \Log::info($stockStatus['pStatusArray']);
         foreach ($stockStatus['pStatusArray'] as $singlePStatus) {
-            \Log::info($singlePStatus['counts']);
-            $number = DB::table('cards')->where('id', $singlePStatus['id'])->decrement('stock', $singlePStatus['counts']);
-            \Log::info($number);
+            \Log::info($singlePStatus);
+            DB::table('cards')->where('id', $singlePStatus['id'])->decrement('stock', $singlePStatus['counts']);
         }
     }
 
     private function updateOrderStatus($orderID, $success)
     {
         $status = $success ? config('order.status.PAID') : config('order.status.PAID_BUT_OUT_OF');
-
-        \Log::info($status);
-        \Log::info(config('order.status.PAID'));
-        \Log::info(config('order.status.PAID_BUT_OUT_OF'));
 
         OrderProduct::where('id', $orderID)
             ->update(['status' => $status]);
