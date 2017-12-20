@@ -13,6 +13,7 @@ namespace App\Service;
 
 use App\Model\Order;
 
+use WxPayApi;
 
 class PayService
 {
@@ -33,7 +34,7 @@ class PayService
     }
 
     // 支付
-    public function pay($orderID)
+    public function pay()
     {
         // 检测订单号是否存在
         // 检测订单号是否正确(订单号和用户不匹配)
@@ -42,16 +43,18 @@ class PayService
 
         // 进行库存量检测
         $orderService = new OrderService();
-        $status = $orderService->checkOrderStock($orderID);
+        $status = $orderService->checkOrderStock($this->orderID);
 
-        if ($status['pass']) {
+        if (!$status['pass']) {
             return $status;
         }
+
+        return $this->makeWxPreOrder($status['orderPrice']);
 
     }
 
     // 发送预订单
-    private function makeWxPreOrder()
+    private function makeWxPreOrder($totalPrice)
     {
         // 获取openid
         $openid = TokenService::getCurrentTokenVal('openid');
@@ -64,6 +67,60 @@ class PayService
             ];
         }
 
+        $wxOrderData = new \WxPayUnifiedOrder();
+        $wxOrderData->SetOut_trade_no($this->orderNO);
+        $wxOrderData->SetTrade_type('JSAPI');
+        $wxOrderData->SetTotal_fee($totalPrice * 100);
+        $wxOrderData->SetBody(config('common.system.title'));
+        $wxOrderData->SetOpenid($openid);
+        $wxOrderData->SetNotify_url(config('secure.pay_back_url'));
+        return $this->getPaySignature($wxOrderData);
+
+    }
+
+    private function getPaySignature($wxOrderData)
+    {
+
+        $wxOrder = \WxPayApi::unifiedOrder($wxOrderData);
+
+        if ($wxOrder['return_code'] != 'SUCCESS' || $wxOrder['result_code'] != 'SUCCESS') {
+            \Log::info(collect($wxOrder)->toArray());
+            \Log::info('获取预支付订单失败');
+        }
+
+        // prepay_id
+        $this->recordPreOrder($wxOrder);
+        $signature = $this->sign($wxOrder);
+
+        return $signature;
+    }
+
+    private function sign($wxOrder)
+    {
+        $jsApiPayData = new \WxPayJsApiPay();
+        $jsApiPayData->SetAppid(config('wx.app_id'));
+        $jsApiPayData->SetTimeStamp((string)time());
+
+        $rand = md5(time() . mt_rand(0, 1000));
+        $jsApiPayData->SetNonceStr($rand);
+
+        $jsApiPayData->SetPackage('prepay_id=' . $wxOrder['prepay_id']);
+        $jsApiPayData->SetSignType('md5');
+
+        $sign = $jsApiPayData->MakeSign();
+        $rawValues = $jsApiPayData->GetValues();
+        $rawValues['paySign'] = $sign;
+
+        unset($rawValues['appId']);
+
+        return $rawValues;
+    }
+
+    private function recordPreOrder($wxOrder)
+    {
+        Order::where('id', $this->orderID)->update([
+            'prepay_id' => $wxOrder['prepay_id']
+        ]);
     }
 
     /**
@@ -75,7 +132,6 @@ class PayService
     private function checkOrderValid()
     {
         $order = Order::where('id', $this->orderID)->first();
-
         if (!$order) {
             return [
                 'code' => '404',

@@ -522,13 +522,13 @@ class WxPayApi
 	 * @throws WxPayException
 	 */
 	private static function postXmlCurl($xml, $url, $useCert = false, $second = 30)
-	{		
+	{
 		$ch = curl_init();
 		//设置超时
 		curl_setopt($ch, CURLOPT_TIMEOUT, $second);
-		
+
 		//如果有配置代理这里就设置代理
-		if(WxPayConfig::CURL_PROXY_HOST != "0.0.0.0" 
+		if(WxPayConfig::CURL_PROXY_HOST != "0.0.0.0"
 			&& WxPayConfig::CURL_PROXY_PORT != 0){
 			curl_setopt($ch,CURLOPT_PROXY, WxPayConfig::CURL_PROXY_HOST);
 			curl_setopt($ch,CURLOPT_PROXYPORT, WxPayConfig::CURL_PROXY_PORT);
@@ -540,7 +540,7 @@ class WxPayApi
 		curl_setopt($ch, CURLOPT_HEADER, FALSE);
 		//要求结果为字符串且输出到屏幕上
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
-	
+
 		if($useCert == true){
 			//设置证书
 			//使用证书：cert 与 key 分别属于两个.pem文件
@@ -558,7 +558,7 @@ class WxPayApi
 		if($data){
 			curl_close($ch);
 			return $data;
-		} else { 
+		} else {
 			$error = curl_errno($ch);
 			curl_close($ch);
 			throw new WxPayException("curl出错，错误码:$error");

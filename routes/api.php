@@ -36,6 +36,9 @@ Route::group(['namespace' => 'Api\V1'], function () {
 
     // 支付接口
     Route::post('/order', 'OrderController@placeOrder');
-
+    // 支付
+    Route::post('/pay/pre_order', 'PayController@getPreOrder');
+    // 微信会掉回调
+    Route::post('/pay/notify', 'PayController@receiveNotify');
 
 });
