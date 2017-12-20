@@ -52,9 +52,7 @@ class WxNotifyService extends WxPayNotify
 
     private function reduceStock($stockStatus)
     {
-        \Log::info($stockStatus['pStatusArray']);
         foreach ($stockStatus['pStatusArray'] as $singlePStatus) {
-            \Log::info($singlePStatus);
             DB::table('cards')->where('id', $singlePStatus['id'])->decrement('stock', $singlePStatus['counts']);
         }
     }
