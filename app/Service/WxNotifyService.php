@@ -24,6 +24,7 @@ class WxNotifyService extends WxPayNotify
     {
         if ($data['result_code'] == 'SUCCESS') {
             $orderNo = $data['out_trade_no'];
+            \Log::info($orderNo);
             DB::beginTransaction();
             try {
                 $order = Order::where('order_no', $orderNo)
@@ -54,7 +55,9 @@ class WxNotifyService extends WxPayNotify
     private function reduceStock($stockStatus)
     {
         foreach ($stockStatus['pStatusArray'] as $singlePStatus) {
-            DB::table('cards')->where('id', $singlePStatus['id'])->decrement('stock', $singlePStatus['counts']);
+            \Log::info($singlePStatus['counts']);
+            $number = DB::table('cards')->where('id', $singlePStatus['id'])->decrement('stock', $singlePStatus['counts']);
+            \Log::info($number);
         }
     }
 
@@ -62,7 +65,11 @@ class WxNotifyService extends WxPayNotify
     {
         $status = $success ? config('order.status.PAID') : config('order.status.PAID_BUT_OUT_OF');
 
-        OrderProduct::where('id', '=', $orderID)
+        \Log::info($status);
+        \Log::info(config('order.status.PAID'));
+        \Log::info(config('order.status.PAID_BUT_OUT_OF'));
+
+        OrderProduct::where('id', $orderID)
             ->update(['status' => $status]);
     }
 
