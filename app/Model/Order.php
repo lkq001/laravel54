@@ -13,4 +13,5 @@ class Order extends Model
     protected $table = 'order'; //表名
     protected $primaryKey = 'id'; //主键
     protected $datas = ['deleted_at'];
+    protected $hidden = ['password'];
 }
