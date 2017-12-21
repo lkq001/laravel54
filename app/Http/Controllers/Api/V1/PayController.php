@@ -35,9 +35,9 @@ class PayController extends Controller
     public function receiveNotify()
     {
         $common = new Common();
+
         $xmlData = file_get_contents('php://input');
-        $result =$common->curl_post_raw(config('secure.pay_back_url'),
-            $xmlData);
+        $result = $common->curl_post_raw(config('secure.pay_back_url'), $xmlData);
 
         return $result;
 
