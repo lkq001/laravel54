@@ -11,5 +11,5 @@
 
 return [
     'token_salt' => 'WrqfDD1LtDlPMtub',
-    'pay_back_url' => 'http://lkq.laravel54.com/api/pay/notify'
+    'pay_back_url' => env('PAY_BACK_URL')
 ];

@@ -28,7 +28,6 @@ Route::group(['namespace' => 'Api\V1'], function () {
     // 获取宅配卡信息
     Route::get('/card/{id}', 'CardsController@getOneCardById');
 
-
     // Token
     Route::post('/token/user', 'TokenController@getToken');
     // 修改地址
@@ -36,9 +35,14 @@ Route::group(['namespace' => 'Api\V1'], function () {
 
     // 支付接口
     Route::post('/order', 'OrderController@placeOrder');
+    // 获取订单详细信息
+    Route::get('/order', 'OrderController@getDetail');
+    // 获取订单信息
+    Route::get('/order/by_user', 'OrderController@getSummaryByUser');
     // 支付
     Route::post('/pay/pre_order', 'PayController@getPreOrder');
     // 微信会掉回调
     Route::post('/pay/notify', 'PayController@receiveNotify');
+    Route::post('/pay/re_notify', 'PayController@redirectNotify');
 
 });

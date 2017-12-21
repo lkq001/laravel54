@@ -18,5 +18,8 @@ return [
         'DELIVERED' => 3,
         // 已支付,但是库存不足
         'PAID_BUT_OUT_OF' => 4
+    ],
+    'pages' => [
+        'page' => 1
     ]
 ];

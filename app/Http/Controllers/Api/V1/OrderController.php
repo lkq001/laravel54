@@ -3,11 +3,11 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Api\BaseController;
-use App\Http\Requests\ProductRequest;
+use App\Model\Order;
 use App\Service\OrderService;
 use App\Service\TokenService;
-use Validator;
 use Illuminate\Http\Request;
+use Validator;
 
 class OrderController extends BaseController
 {
@@ -50,4 +50,56 @@ class OrderController extends BaseController
         $status = $order->place($uid, $products);
         return $status;
     }
+
+    /**
+     * 获取订单列表
+     *
+     * @return array
+     * author 李克勤
+     */
+    public function getSummaryByUser()
+    {
+        $uid = TokenService::getCurrnentUid();
+
+        $pagingOrders = Order::select('id', 'order_no', 'created_at', 'total_price', 'status', 'snap_img', 'snap_name', 'total_count')
+            ->where('user_id', $uid)
+            ->orderBy('created_at')
+            ->paginate(config('order.pages.page'));
+
+        if ($pagingOrders->isEmpty()) {
+            return [
+                'data' => [],
+                'current_page' => $pagingOrders->currentPage()
+            ];
+        }
+        $data = collect($pagingOrders)->toArray();
+        return [
+            'data' => $pagingOrders,
+            'current_page' => $pagingOrders->currentPage()
+        ];
+    }
+
+    public function getDetail(Request $request)
+    {
+        if (!$request->id) {
+            return [
+                'code' => '404',
+                'msg' => 'id不存在',
+                'errorCode' => '80000'
+            ];
+        }
+        $orderDetail = Order::where('id', $request->id)->first();
+        if (!$orderDetail) {
+            return [
+                'code' => '404',
+                'msg' => '订单信息不存在',
+                'errorCode' => '80000'
+            ];
+        }
+
+        $orderDetail->snap_items = json_decode($orderDetail->snap_items);
+        $orderDetail->snap_address = json_decode($orderDetail->snap_address);
+        return $orderDetail;
+    }
+
 }
