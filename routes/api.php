@@ -30,8 +30,11 @@ Route::group(['namespace' => 'Api\V1'], function () {
 
     // Token
     Route::post('/token/user', 'TokenController@getToken');
+    Route::post('/token/verify', 'TokenController@verifyToken');
+
     // 修改地址
-    Route::post('/user/address', 'UserAddressController@createOrUpdateAddress');
+    Route::post('/address', 'UserAddressController@createOrUpdateAddress');
+    Route::get('/address/info', 'UserAddressController@getUserAddress');
 
     // 支付接口
     Route::post('/order', 'OrderController@placeOrder');

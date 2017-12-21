@@ -21,24 +21,6 @@ class UserAddressController
     // 保存修改地址
     public function createOrUpdateAddress(Request $request, Users $users, UserAddress $userAddress)
     {
-//        // 数据验证
-//        $validator = Validator::make($request->all(), [
-//            'name' => 'required',
-//            'mobile' => 'required|numeric',
-//            'province' => 'required',
-//            'city' => 'required',
-//            'country' => 'required',
-//            'detail' => 'required',
-//        ]);
-//        return $validator;
-//        if ($validator) {
-//            return [
-//                'code' => 404,
-//                'msg' => '参数错误',
-//                'errorCode' => 60000
-//            ];
-//        }
-
         // 更具Token 获取用户的uid
         // 如果用户存在,获取用户从客户端传过来的信息
         // 根据用户地址信息是否存在,从而判断是添加地址或者 更新地址
@@ -49,7 +31,7 @@ class UserAddressController
 
         if (!$user) {
             return [
-                'code' => 404,
+                'code' => 401,
                 'msg' => '用户不存在',
                 'errorCode' => 60001
             ];
@@ -83,5 +65,20 @@ class UserAddressController
             'errorCode' => 60002
         ];
 
+    }
+
+    public function getUserAddress()
+    {
+        $uid = TokenService::getCurrnentUid();
+        $userAddress = UserAddress::where('user_id', $uid)
+            ->first();
+        if (!$userAddress) {
+            return [
+                'code' => 401,
+                'msg' => '用户地址不存在',
+                'errorCode' => 60001
+            ];
+        }
+        return $userAddress;
     }
 }

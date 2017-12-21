@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\V1;
 
+use App\Service\TokenService;
 use App\Service\UserTokenService;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -23,4 +24,21 @@ class TokenController extends Controller
             'token' => $token
         ];
     }
+
+    public function verifyToken($token = '')
+    {
+        if (!$token) {
+            return [
+                'code' => '401',
+                'msg' => 'token不允许为空',
+                'errorCode' => '80000'
+            ];
+        }
+        $valid = TokenService::verifyToken($token);
+        return [
+            'isValid' => $valid
+        ];
+    }
+
+
 }
