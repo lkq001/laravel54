@@ -39,5 +39,7 @@ class PayController extends Controller
         $result =$common->curl_post_raw(config('secure.pay_back_url'),
             $xmlData);
 
+        return $result;
+
     }
 }
