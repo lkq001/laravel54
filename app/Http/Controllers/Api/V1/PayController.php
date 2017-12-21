@@ -26,20 +26,9 @@ class PayController extends Controller
         return $payment->pay();
     }
 
-    public function redirectNotify()
+    public function receiveNotify()
     {
         $notify = new WxNotifyService();
         $notify->Handle();
-    }
-
-    public function receiveNotify()
-    {
-        $common = new Common();
-
-        $xmlData = file_get_contents('php://input');
-        $result = $common->curl_post_raw(config('secure.pay_back_url'), $xmlData);
-
-        return $result;
-
     }
 }

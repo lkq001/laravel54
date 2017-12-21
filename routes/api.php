@@ -44,6 +44,6 @@ Route::group(['namespace' => 'Api\V1'], function () {
     // 微信会掉回调
     Route::post('/pay/notify', 'PayController@receiveNotify');
 
-    Route::post('/pay/re_notify', 'PayController@redirectNotify');
+//    Route::post('/pay/re_notify', 'PayController@redirectNotify');
 
 });
