@@ -102,4 +102,34 @@ class OrderController extends BaseController
         return $orderDetail;
     }
 
+    public function orderList(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'pay' => 'required|int',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([401, '参数错误']);
+        }
+
+        $uid = TokenService::getCurrnentUid();
+        if (!$uid) {
+            return false;
+        }
+
+        // 查询订单信息
+        if ($request->pay == 99) {
+            $orderList = Order::where('user_id', $uid)->get();
+        } else {
+            $orderList = Order::where('user_id', $uid)
+                ->where('status', $request->pay)->get();
+        }
+        if ($orderList) {
+            foreach ($orderList as $value) {
+                $value->snap_img = config('filesystems.disks.qiniu.domains.default') . '/' . $value->snap_img;
+            }
+        }
+        return $orderList;
+    }
+
 }

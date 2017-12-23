@@ -80,7 +80,6 @@ class PayService
 
     private function getPaySignature($wxOrderData)
     {
-
         $wxOrder = \WxPayApi::unifiedOrder($wxOrderData);
 
         if ($wxOrder['return_code'] != 'SUCCESS' || $wxOrder['result_code'] != 'SUCCESS') {

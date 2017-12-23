@@ -12,7 +12,10 @@
 namespace App\Service;
 
 
+use App\Model\Cards;
 use App\Model\Order;
+use App\Model\OrderProduct;
+use App\Model\UserCards;
 use Illuminate\Support\Facades\DB;
 use WxPayNotify;
 
@@ -54,6 +57,7 @@ class WxNotifyService extends WxPayNotify
         foreach ($stockStatus['pStatusArray'] as $singlePStatus) {
             DB::table('cards')->where('id', $singlePStatus['id'])->decrement('stock', $singlePStatus['counts']);
         }
+
     }
 
     private function updateOrderStatus($orderID, $success)
@@ -62,6 +66,66 @@ class WxNotifyService extends WxPayNotify
 
         Order::where('id', $orderID)
             ->update(['status' => $status]);
+
+        // 创建user_card数据
+
+        // 查询产品信息
+        $productLists = OrderProduct::where('order_id', $orderID)->get();
+
+        if (collect($productLists) < 0) {
+            \Log::info('订单创建失败');
+            return false;
+        }
+
+        // 产品id
+        $ids = [];
+        foreach ($productLists as $v) {
+            $ids[] = $v->product_id;
+        }
+
+        // 查询产品信息
+        $cardInfo = Cards::whereIn('id', $ids);
+        if (collect($cardInfo) < 0) {
+            \Log::info('宅配卡创建失败');
+            return false;
+        }
+
+        $uid = TokenService::getCurrnentUid();
+        if (collect($uid) < 0) {
+            \Log::info('用户不合法');
+            return false;
+        }
+
+        foreach ($cardInfo as $value) {
+            $userCards = new UserCards();
+            $userCards->user_id = $uid;
+            $userCards->card_id = $value->id;
+            $userCards->card_code = $this->getCardCode();   // 生成
+            $userCards->card_code_pw = mt_rand(10000000, 99999999);    // 随机生成八位数字
+            $userCards->number = $value->number;
+            $userCards->number_count = $value->number;
+            $userCards->number_last = $value->number;
+            $userCards->card_source = 1;
+            $userCards->address = '';
+
+            $userCards->save();
+        }
+
+
+    }
+
+    public function getCardCode()
+    {
+        // 随机生成数字
+        $code = '89'+ mt_rand(1000000, 9999999);
+        // 查询卡号是否存在
+        $cardInfo = UserCards::where('card_code', $code)->count();
+        if ($cardInfo > 0) {
+            $this->getCardCode();
+        } else {
+            return $code;
+        }
+
     }
 
 

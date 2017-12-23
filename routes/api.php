@@ -36,6 +36,12 @@ Route::group(['namespace' => 'Api\V1'], function () {
     Route::get('/user/open/cards', 'UserCardsController@getNoOpenCardsHas');
     // 开通账号
     Route::post('/user/open/cards/now', 'UserCardsController@openCardsHas');
+    // 可使用账号
+    Route::get('/user/cards/use', 'UserCardsController@canUseCards');
+    // 可使用账号详情
+    Route::get('/user/cards/info', 'UserCardsController@canUseCardsInfo');
+    // 使用配送卡
+    Route::post('/use/cards/user', 'UserCardsController@useCardByUser');
 
 
     // Token
@@ -50,6 +56,8 @@ Route::group(['namespace' => 'Api\V1'], function () {
     Route::post('/order', 'OrderController@placeOrder');
     // 获取订单详细信息
     Route::get('/order', 'OrderController@getDetail');
+    // 全部订单
+    Route::get('/order/order/list', 'OrderController@orderList');
     // 获取订单信息
     Route::get('/order/by_user', 'OrderController@getSummaryByUser');
     // 支付
