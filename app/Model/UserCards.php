@@ -13,7 +13,4 @@ class UserCards extends Model
     protected $primaryKey = 'id'; //主键
     protected $datas = ['deleted_at'];
 
-    protected $fillable = ['user_id', 'card_id', 'card_code', 'card_code_pw', 'number', 'number_count', 'number_last', 'card_source', 'address' ];
-
-
 }

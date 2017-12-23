@@ -15,7 +15,6 @@ namespace App\Service;
 use App\Model\Cards;
 use App\Model\Order;
 use App\Model\OrderProduct;
-use App\Model\UserAddress;
 use App\Model\UserCards;
 use Illuminate\Support\Facades\DB;
 use WxPayNotify;
@@ -100,47 +99,30 @@ class WxNotifyService extends WxPayNotify
             \Log::info('用户不合法');
             return false;
         }
-        $insertData = [];
 
-        $insert = [];
-        $insert['user_id'] = $uid;
-        $insert['card_id'] = $uid;
-        $insert['card_code'] = $this->getCardCode();   // 生成
-        $insert['card_code_pw'] = mt_rand(10000000, 99999999);    // 随机生成八位数字
-        $insert['number'] = $uid;
-        $insert['number_count'] = $uid;
-        $insert['number_last'] = $uid;
-        $insert['card_source'] = 1;
-        $insert['address'] = '';
+        foreach ($cardInfo as $key => $value) {
 
-        UserCards::create($insert);
+            $userCards = new UserCards();
+            $userCards->user_id = $uid;
+            $userCards->card_id = $value->id;
+            $userCards->card_code = mt_rand(10000000, 99999999);   // 生成
+            $userCards->card_code_pw = mt_rand(10000000, 99999999);    // 随机生成八位数字
+            $userCards->number = $value->number * $pNumber[$key];
+            $userCards->number_count = $value->number * $pNumber[$key];
+            $userCards->number_last = $value->number * $pNumber[$key];
+            $userCards->card_source = 1;
+            $userCards->address = '1';
 
-//        foreach ($cardInfo as $key => $value) {
-//
-//            $insert = [];
-//            $insert['user_id'] = $uid;
-//            $insert['card_id'] = $value->id;
-//            $insert['card_code'] = $this->getCardCode();   // 生成
-//            $insert['card_code_pw'] = mt_rand(10000000, 99999999);    // 随机生成八位数字
-//            $insert['number'] = $value->number * $pNumber[$key];
-//            $insert['number_count'] = $value->number * $pNumber[$key];
-//            $insert['number_last'] = $value->number * $pNumber[$key];
-//            $insert['card_source'] = 1;
-//            $insert['address'] = '';
-//
-//            UserCards::create($insert);
-//
-//        }
-//        $userCards = new UserCards();
-//        $userCards->insert($insertData);
+            $userCards->save();
 
+        }
 
     }
 
     public function getCardCode()
     {
         // 随机生成数字
-        $code = '89'+ mt_rand(1000000, 9999999);
+        $code = '89' + mt_rand(1000000, 9999999);
         // 查询卡号是否存在
         $cardInfo = UserCards::where('card_code', $code)->count();
         if ($cardInfo > 0) {
