@@ -99,23 +99,25 @@ class WxNotifyService extends WxPayNotify
             \Log::info('用户不合法');
             return false;
         }
-
+        $insertData = [];
+        $insert = [];
         foreach ($cardInfo as $key => $value) {
 
-            $userCards = new UserCards();
-            $userCards->user_id = $uid;
-            $userCards->card_id = $value->id;
-            $userCards->card_code = $this->getCardCode();   // 生成
-            $userCards->card_code_pw = mt_rand(10000000, 99999999);    // 随机生成八位数字
-            $userCards->number = $value->number * $pNumber[$key];
-            $userCards->number_count = $value->number * $pNumber[$key];
-            $userCards->number_last = $value->number * $pNumber[$key];
-            $userCards->card_source = 1;
-            $userCards->address = '1';
 
-            $userCards->save();
+            $insert['user_id'] = $uid;
+            $insert['card_id'] = $value->id;
+            $insert['card_code'] = $this->getCardCode();   // 生成
+            $insert['card_code_pw'] = mt_rand(10000000, 99999999);    // 随机生成八位数字
+            $insert['number'] = $value->number * $pNumber[$key];
+            $insert['number_count'] = $value->number * $pNumber[$key];
+            $insert['number_last'] = $value->number * $pNumber[$key];
+            $insert['card_source'] = 1;
+            $insert['address'] = '';
+
+            $insertData[] = $insert;
         }
-
+        $userCards = new UserCards();
+        $userCards->insert($insertData);
 
     }
 
