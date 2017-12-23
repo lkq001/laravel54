@@ -28,6 +28,16 @@ Route::group(['namespace' => 'Api\V1'], function () {
     // 获取宅配卡信息
     Route::get('/card/{id}', 'CardsController@getOneCardById');
 
+    // 开通宅配卡
+    Route::post('/activation', 'CardsController@activation');
+    // 已开通账号
+    Route::get('/user/cards', 'UserCardsController@getCardsHas');
+    // 未开通账号
+    Route::get('/user/open/cards', 'UserCardsController@getNoOpenCardsHas');
+    // 开通账号
+    Route::post('/user/open/cards/now', 'UserCardsController@openCardsHas');
+
+
     // Token
     Route::post('/token/user', 'TokenController@getToken');
     Route::post('/token/verify', 'TokenController@verifyToken');
@@ -48,5 +58,7 @@ Route::group(['namespace' => 'Api\V1'], function () {
     Route::post('/pay/notify', 'PayController@receiveNotify');
 
 //    Route::post('/pay/re_notify', 'PayController@redirectNotify');
+
+
 
 });

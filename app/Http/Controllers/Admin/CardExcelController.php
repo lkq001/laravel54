@@ -92,7 +92,7 @@ class CardExcelController extends Controller
 
                 if (isset($value['卡号']) && isset($value['卡密']) && isset($value['次数'])) {
                     if (!$cardExcel->where('code', $value['卡号'])->count()) {
-                        $insertData[$key]['code'] = $value['卡号'];
+                        $insertData[$key]['code'] = preg_replace('# #', '', $value['卡号']);
                         $insertData[$key]['code_pw'] = $value['卡密'];
                         $insertData[$key]['number'] = $value['次数'];
                     } else {

@@ -93,5 +93,8 @@ return [
         'password' => '密码',
         'content'  => '内容',
         'identity' => '手机号/用户名',
+        'address' => '地址',
+        'code'    => '卡号',
+        'code_pw'   => '卡密'
     ],
 ];

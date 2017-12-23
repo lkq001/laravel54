@@ -72,6 +72,7 @@ class UserAddressController
         $uid = TokenService::getCurrnentUid();
         $userAddress = UserAddress::where('user_id', $uid)
             ->first();
+
         if (!$userAddress) {
             return [
                 'code' => 401,
