@@ -104,7 +104,7 @@ class WxNotifyService extends WxPayNotify
 
             $userCards = new UserCards();
             $userCards->user_id = $uid;
-            $userCards->card_id = $value->id;
+            $userCards->card_id = 1;
             $userCards->card_code = mt_rand(10000000, 99999999);   // 生成
             $userCards->card_code_pw = mt_rand(10000000, 99999999);    // 随机生成八位数字
             $userCards->number = 1;
