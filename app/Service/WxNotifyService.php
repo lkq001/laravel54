@@ -102,22 +102,35 @@ class WxNotifyService extends WxPayNotify
         }
         $insertData = [];
 
-        foreach ($cardInfo as $key => $value) {
+        $insert = [];
+        $insert['user_id'] = $uid;
+        $insert['card_id'] = $uid;
+        $insert['card_code'] = $this->getCardCode();   // 生成
+        $insert['card_code_pw'] = mt_rand(10000000, 99999999);    // 随机生成八位数字
+        $insert['number'] = $uid;
+        $insert['number_count'] = $uid;
+        $insert['number_last'] = $uid;
+        $insert['card_source'] = 1;
+        $insert['address'] = '';
 
-            $insert = [];
-            $insert['user_id'] = $uid;
-            $insert['card_id'] = $value->id;
-            $insert['card_code'] = $this->getCardCode();   // 生成
-            $insert['card_code_pw'] = mt_rand(10000000, 99999999);    // 随机生成八位数字
-            $insert['number'] = $value->number * $pNumber[$key];
-            $insert['number_count'] = $value->number * $pNumber[$key];
-            $insert['number_last'] = $value->number * $pNumber[$key];
-            $insert['card_source'] = 1;
-            $insert['address'] = '';
+        UserCards::create($insert);
 
-            UserCards::create($insert);
-
-        }
+//        foreach ($cardInfo as $key => $value) {
+//
+//            $insert = [];
+//            $insert['user_id'] = $uid;
+//            $insert['card_id'] = $value->id;
+//            $insert['card_code'] = $this->getCardCode();   // 生成
+//            $insert['card_code_pw'] = mt_rand(10000000, 99999999);    // 随机生成八位数字
+//            $insert['number'] = $value->number * $pNumber[$key];
+//            $insert['number_count'] = $value->number * $pNumber[$key];
+//            $insert['number_last'] = $value->number * $pNumber[$key];
+//            $insert['card_source'] = 1;
+//            $insert['address'] = '';
+//
+//            UserCards::create($insert);
+//
+//        }
 //        $userCards = new UserCards();
 //        $userCards->insert($insertData);
 
