@@ -15,6 +15,7 @@ namespace App\Service;
 use App\Model\Cards;
 use App\Model\Order;
 use App\Model\OrderProduct;
+use App\Model\UserAddress;
 use App\Model\UserCards;
 use Illuminate\Support\Facades\DB;
 use WxPayNotify;
@@ -100,10 +101,10 @@ class WxNotifyService extends WxPayNotify
             return false;
         }
         $insertData = [];
-        $insert = [];
+
         foreach ($cardInfo as $key => $value) {
 
-
+            $insert = [];
             $insert['user_id'] = $uid;
             $insert['card_id'] = $value->id;
             $insert['card_code'] = $this->getCardCode();   // 生成
@@ -114,10 +115,12 @@ class WxNotifyService extends WxPayNotify
             $insert['card_source'] = 1;
             $insert['address'] = '';
 
-            $insertData[] = $insert;
+            UserAddress::create($insert);
+
         }
-        $userCards = new UserCards();
-        $userCards->insert($insertData);
+//        $userCards = new UserCards();
+//        $userCards->insert($insertData);
+
 
     }
 
