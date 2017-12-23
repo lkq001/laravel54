@@ -72,7 +72,7 @@ class WxNotifyService extends WxPayNotify
         // 查询产品信息
         $productLists = OrderProduct::where('order_id', $orderID)->get();
 
-        if (collect($productLists) < 0) {
+        if (collect($productLists)->count() < 0) {
             \Log::info('订单创建失败');
             return false;
         }
@@ -84,8 +84,8 @@ class WxNotifyService extends WxPayNotify
         }
 
         // 查询产品信息
-        $cardInfo = Cards::whereIn('id', $ids);
-        if (collect($cardInfo) < 0) {
+        $cardInfo = Cards::whereIn('id', $ids)->get();
+        if (collect($cardInfo)->count() < 0) {
             \Log::info('宅配卡创建失败');
             return false;
         }
