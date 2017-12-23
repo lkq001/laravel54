@@ -13,9 +13,4 @@ class UserCards extends Model
     protected $primaryKey = 'id'; //主键
     protected $datas = ['deleted_at'];
 
-    public function user()
-    {
-        return $this->hasOne('App\Model\Cards', 'number', 'number');
-    }
-
 }

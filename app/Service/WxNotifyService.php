@@ -100,20 +100,32 @@ class WxNotifyService extends WxPayNotify
             return false;
         }
 
-        foreach ($cardInfo as $key => $value) {
-            $userCards = new UserCards();
-            $userCards->user_id = $uid;
-            $userCards->card_id = $value->id;
-            $userCards->card_code = $this->getCardCode();   // 生成
-            $userCards->card_code_pw = mt_rand(10000000, 99999999);    // 随机生成八位数字
-            $userCards->number = $value->number * $pNumber[$key];
-            $userCards->number_count = $value->number * $pNumber[$key];
-            $userCards->number_last = $value->number * $pNumber[$key];
-            $userCards->card_source = 1;
-            $userCards->address = '';
+        $userCards = new UserCards();
+        $userCards->user_id = 1;
+        $userCards->card_id = 1;
+        $userCards->card_code = 1;   // 生成
+        $userCards->card_code_pw = mt_rand(10000000, 99999999);    // 随机生成八位数字
+        $userCards->number = 1;
+        $userCards->number_count = 1;
+        $userCards->number_last = 1;
+        $userCards->card_source = 1;
+        $userCards->address = '1';
 
-            $userCards->save();
-        }
+        $userCards->save();
+//        foreach ($cardInfo as $key => $value) {
+//            $userCards = new UserCards();
+//            $userCards->user_id = $uid;
+//            $userCards->card_id = $value->id;
+//            $userCards->card_code = $this->getCardCode();   // 生成
+//            $userCards->card_code_pw = mt_rand(10000000, 99999999);    // 随机生成八位数字
+//            $userCards->number = $value->number * $pNumber[$key];
+//            $userCards->number_count = $value->number * $pNumber[$key];
+//            $userCards->number_last = $value->number * $pNumber[$key];
+//            $userCards->card_source = 1;
+//            $userCards->address = '';
+//
+//            $userCards->save();
+//        }
 
 
     }
