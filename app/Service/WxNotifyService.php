@@ -67,49 +67,49 @@ class WxNotifyService extends WxPayNotify
         Order::where('id', $orderID)
             ->update(['status' => $status]);
 
-        // 创建user_card数据
-
-        // 查询产品信息
-        $productLists = OrderProduct::where('order_id', $orderID)->get();
-
-        if (collect($productLists)->count() < 0) {
-            \Log::info('订单创建失败');
-            return false;
-        }
-
-        // 产品id
-        $ids = [];
-        foreach ($productLists as $v) {
-            $ids[] = $v->product_id;
-        }
-
-        // 查询产品信息
-        $cardInfo = Cards::whereIn('id', $ids)->get();
-        if (collect($cardInfo)->count() < 0) {
-            \Log::info('宅配卡创建失败');
-            return false;
-        }
-
-        $uid = TokenService::getCurrnentUid();
-        if (!$uid) {
-            \Log::info('用户不合法');
-            return false;
-        }
-
-        foreach ($cardInfo as $value) {
-            $userCards = new UserCards();
-            $userCards->user_id = $uid;
-            $userCards->card_id = $value->id;
-            $userCards->card_code = $this->getCardCode();   // 生成
-            $userCards->card_code_pw = mt_rand(10000000, 99999999);    // 随机生成八位数字
-            $userCards->number = $value->number;
-            $userCards->number_count = $value->number;
-            $userCards->number_last = $value->number;
-            $userCards->card_source = 1;
-            $userCards->address = '';
-
-            $userCards->save();
-        }
+//        // 创建user_card数据
+//
+//        // 查询产品信息
+//        $productLists = OrderProduct::where('order_id', $orderID)->get();
+//
+//        if (collect($productLists)->count() < 0) {
+//            \Log::info('订单创建失败');
+//            return false;
+//        }
+//
+//        // 产品id
+//        $ids = [];
+//        foreach ($productLists as $v) {
+//            $ids[] = $v->product_id;
+//        }
+//
+//        // 查询产品信息
+//        $cardInfo = Cards::whereIn('id', $ids)->get();
+//        if (collect($cardInfo)->count() < 0) {
+//            \Log::info('宅配卡创建失败');
+//            return false;
+//        }
+//
+//        $uid = TokenService::getCurrnentUid();
+//        if (!$uid) {
+//            \Log::info('用户不合法');
+//            return false;
+//        }
+//
+//        foreach ($cardInfo as $value) {
+//            $userCards = new UserCards();
+//            $userCards->user_id = $uid;
+//            $userCards->card_id = $value->id;
+//            $userCards->card_code = $this->getCardCode();   // 生成
+//            $userCards->card_code_pw = mt_rand(10000000, 99999999);    // 随机生成八位数字
+//            $userCards->number = $value->number;
+//            $userCards->number_count = $value->number;
+//            $userCards->number_last = $value->number;
+//            $userCards->card_source = 1;
+//            $userCards->address = '';
+//
+//            $userCards->save();
+//        }
 
 
     }
