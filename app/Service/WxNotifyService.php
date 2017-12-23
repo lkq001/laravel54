@@ -91,7 +91,7 @@ class WxNotifyService extends WxPayNotify
         }
 
         $uid = TokenService::getCurrnentUid();
-        if (collect($uid) < 0) {
+        if (!$uid) {
             \Log::info('用户不合法');
             return false;
         }
