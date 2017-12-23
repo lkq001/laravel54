@@ -115,7 +115,7 @@ class WxNotifyService extends WxPayNotify
             $insert['card_source'] = 1;
             $insert['address'] = '';
 
-            UserAddress::create($insert);
+            UserCards::create($insert);
 
         }
 //        $userCards = new UserCards();
