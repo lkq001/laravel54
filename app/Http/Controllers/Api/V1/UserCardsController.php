@@ -138,10 +138,6 @@ class UserCardsController
             ->where('status', 2)
             ->first();
 
-        if (!$cards->address) {
-            $cards->address = "暂无地址";
-        }
-
         return $cards;
 
     }
