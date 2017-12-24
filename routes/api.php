@@ -56,6 +56,9 @@ Route::group(['namespace' => 'Api\V1'], function () {
     Route::post('/order', 'OrderController@placeOrder');
     // 获取订单详细信息
     Route::get('/order', 'OrderController@getDetail');
+    // 获取订单详细信息
+    Route::get('/order/info', 'OrderController@getOrderInfo');
+
     // 全部订单
     Route::get('/order/order/list', 'OrderController@orderList');
     // 获取订单信息

@@ -120,10 +120,10 @@ class OrderController extends BaseController
 
         // 查询订单信息
         if ($request->pay == 99) {
-            $orderList = Order::where('user_id', $uid)->get();
+            $orderList = Order::where('user_id', $uid)->orderBy('id', 'DESC')->get();
         } else {
             $orderList = Order::where('user_id', $uid)
-                ->where('status', $request->pay)->get();
+                ->where('status', $request->pay)->orderBy('id', 'DESC')->get();
         }
         if ($orderList) {
             foreach ($orderList as $value) {
@@ -132,5 +132,36 @@ class OrderController extends BaseController
         }
         return $orderList;
     }
+
+    public function getOrderInfo(Request $request)
+    {
+        if (!$request->id) {
+            return [
+                'code' => '404',
+                'msg' => 'id不存在',
+                'errorCode' => '80000'
+            ];
+        }
+        $orderDetail = Order::where('id', $request->id)->first();
+
+        if (!$orderDetail) {
+            return [
+                'code' => '404',
+                'msg' => '订单信息不存在',
+                'errorCode' => '80000'
+            ];
+        }
+
+        $orderDetail->snap_img = config('filesystems.disks.qiniu.domains.default') .'/'. $orderDetail->snap_img;
+        $orderDetail->snap_items = json_decode($orderDetail->snap_items);
+
+        foreach ($orderDetail->snap_items as $v) {
+            $v->image = config('filesystems.disks.qiniu.domains.default') .'/'. $v->main_img_url;
+        }
+
+        $orderDetail->snap_address = json_decode($orderDetail->snap_address);
+        return $orderDetail;
+    }
+
 
 }
