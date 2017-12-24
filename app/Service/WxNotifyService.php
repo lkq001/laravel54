@@ -103,7 +103,7 @@ class WxNotifyService extends WxPayNotify
         foreach ($cardInfo as $key => $value) {
 
             $userCards = new UserCards();
-            $userCards->user_id = 1;
+            $userCards->user_id = $uid;
             $userCards->card_id = $value->id;
             $userCards->card_code = $this->getCardCode();   // 生成
             $userCards->card_code_pw = mt_rand(10000000, 99999999);    // 随机生成八位数字
@@ -122,7 +122,7 @@ class WxNotifyService extends WxPayNotify
     public function getCardCode()
     {
         // 随机生成数字
-        $code = '89'+ mt_rand(1000000, 9999999);
+        $code = '89' . mt_rand(1000000, 9999999);
         // 查询卡号是否存在
         $cardInfo = UserCards::where('card_code', $code)->count();
         if ($cardInfo > 0) {
