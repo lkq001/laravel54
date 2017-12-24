@@ -94,8 +94,8 @@ class WxNotifyService extends WxPayNotify
         }
 
         // 查询订单信息
-        $productLists = Order::where('id', $orderID)->first();
-        if (collect($productLists)->count() <= 0) {
+        $order = Order::where('id', $orderID)->first();
+        if (collect($order)->count() <= 0) {
             \Log::info('订单不合法');
             return false;
         }
@@ -103,7 +103,7 @@ class WxNotifyService extends WxPayNotify
         foreach ($cardInfo as $key => $value) {
 
             $userCards = new UserCards();
-            $userCards->user_id = $productLists->user_id;
+            $userCards->user_id = $order->user_id;
             $userCards->card_id = $value->id;
             $userCards->card_code = $this->getCardCode();   // 生成
             $userCards->card_code_pw = mt_rand(10000000, 99999999);    // 随机生成八位数字
@@ -111,7 +111,7 @@ class WxNotifyService extends WxPayNotify
             $userCards->number_count = $value->number * $pNumber[$key];
             $userCards->number_last = $value->number * $pNumber[$key];
             $userCards->card_source = 1;
-            $userCards->address = '1';
+            $userCards->address = $order->snap_address ? $order->snap_address : '';
 
             $userCards->save();
 
