@@ -32,7 +32,7 @@ class TokenService
     }
 
     // 指定key,取内存值
-    public static function getCurrentTokenVal($key)
+    public static function getCurrentTokenVar($key)
     {
         $token = Request::instance()->header('token');
 
@@ -61,7 +61,7 @@ class TokenService
     public static function getCurrnentUid()
     {
         // $token
-        $uid = self::getCurrentTokenVal('uid');
+        $uid = self::getCurrentTokenVar('uid');
 
         return $uid;
     }
@@ -74,7 +74,7 @@ class TokenService
      */
     public static function needPrimaryScope()
     {
-        $scope = self::getCurrentTokenVal('scope');
+        $scope = self::getCurrentTokenVar('scope');
         if ($scope) {
             if ($scope >= config('scope.user')) {
                 return true;
@@ -102,7 +102,7 @@ class TokenService
      */
     public static function needExclusiveScope()
     {
-        $scope = self::getCurrentTokenVal('scope');
+        $scope = self::getCurrentTokenVar('scope');
         if ($scope) {
             if ($scope == config('scope.user')) {
                 return true;

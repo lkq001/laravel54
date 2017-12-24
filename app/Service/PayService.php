@@ -57,7 +57,7 @@ class PayService
     private function makeWxPreOrder($totalPrice)
     {
         // 获取openid
-        $openid = TokenService::getCurrentTokenVal('openid');
+        $openid = TokenService::getCurrentTokenVar('openid');
 
         if (!$openid) {
             return [

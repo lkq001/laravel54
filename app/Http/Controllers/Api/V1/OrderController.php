@@ -46,6 +46,7 @@ class OrderController extends BaseController
         $products = $request->products;
 
         $uid = TokenService::getCurrnentUid('uid');
+        \Log::info($uid);
         $order = new OrderService();
         $status = $order->place($uid, $products);
         return $status;
