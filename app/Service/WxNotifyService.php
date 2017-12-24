@@ -100,8 +100,6 @@ class WxNotifyService extends WxPayNotify
             return false;
         }
 
-        $address = json_decode($order->address);
-
         foreach ($cardInfo as $key => $value) {
 
             $userCards = new UserCards();
@@ -113,7 +111,7 @@ class WxNotifyService extends WxPayNotify
             $userCards->number_count = $value->number * $pNumber[$key];
             $userCards->number_last = $value->number * $pNumber[$key];
             $userCards->card_source = 1;
-            $userCards->address = $address->province . $address->city . $address->detail;
+            $userCards->address = '';
 
             $userCards->save();
 
