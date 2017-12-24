@@ -140,9 +140,6 @@ class UserCardsController
 
         if (!$cards->address) {
             $cards->address = "暂无地址";
-        } else {
-            $address = json_decode($cards->address);
-            $cards->address = '123123123';
         }
 
         return $cards;
