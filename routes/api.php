@@ -38,6 +38,7 @@ Route::group(['namespace' => 'Api\V1'], function () {
     Route::post('/user/open/cards/now', 'UserCardsController@openCardsHas');
     // 可使用账号
     Route::get('/user/cards/use', 'UserCardsController@canUseCards');
+    Route::get('/user/cards/use/info', 'UserCardsController@canUseCardsInfoLists');
     // 可使用账号详情
     Route::get('/user/cards/info', 'UserCardsController@canUseCardsInfo');
     // 使用配送卡

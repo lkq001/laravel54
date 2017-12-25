@@ -14,4 +14,9 @@ class CardUse extends Model
     protected $primaryKey = 'id'; //主键
     protected $datas = ['deleted_at'];
 
+    public function cards()
+    {
+        return $this->belongsTo('App\Model\Cards','card_id', 'id');
+    }
+
 }

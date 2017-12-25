@@ -7,63 +7,71 @@
         <div class="col-md-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h3 class="panel-title">宅配卡列表</h3>
+                    <h3 class="panel-title">宅配计划列表</h3>
                 </div>
-                <div class="panel-body">
-                    <button id="cards-add" class="btn btn-info m-b-5" style="float: right">添加</button>
-                </div>
+                {{--<div class="panel-body">--}}
+                    {{--<button id="cards-add" class="btn btn-info m-b-5" style="float: right">添加</button>--}}
+                {{--</div>--}}
                 <div class="panel-body">
 
                     <!-- 添加 -->
-                    @include('admin.cards.add')
-                    <!-- 修改 -->
-                    @include('admin.cards.edit')
+                    {{--@include('admin.cards.add')--}}
+                    {{--<!-- 修改 -->--}}
+                    {{--@include('admin.cards.edit')--}}
                     <div class="row">
                         <div class="col-md-12 col-sm-12 col-xs-12">
                             <table id="datatable" class="table table-striped table-bordered">
                                 <thead>
                                 <tr>
                                     <th>ID</th>
-                                    <th>宅配卡名称</th>
-                                    <th>价格</th>
-                                    <th>数量</th>
-                                    <th>销售数量</th>
+                                    <th>宅配卡编号</th>
+                                    <th>次数</th>
+                                    <th>宅配时间</th>
+                                    <th>使用人</th>
+                                    <th>电话</th>
+                                    <th>使用地址</th>
                                     <th>状态</th>
-                                    <th>操作</th>
+                                    {{--<th>操作</th>--}}
                                 </tr>
                                 </thead>
 
                                 <tbody>
-                                @foreach($cards as $card)
-                                    <tr>
-                                        <td>{{ $card->id }}</td>
-                                        <td>{{ $card->name }}</td>
-                                        <td>{{ $card->price }}</td>
-                                        <td>{{ $card->number }}</td>
-                                        <td>{{ $card->sale_number ? $card->sale_number : 0 }}</td>
-                                        <td>
+                                @if($useCards)
+                                    @foreach($useCards as $card)
+                                        <tr>
+                                            <td>{{ $card->id }}</td>
+                                            <td>{{ $card->card_id }}</td>
+                                            <td>{{ $card->card_use }}</td>
+                                            <td>{{ $card->use_time }}</td>
+                                            <td>{{ $card->user_name }}</td>
+                                            <td>{{ $card->tel }}</td>
+                                            <td>{{ $card->address }}</td>
+                                            <td>
 
-                                            @if( $card->status  == 1)
-                                                未上架
-                                            @else
-                                                已上架
-                                            @endif
-                                        </td>
-                                        <td>
-                                            <button id="cards-edit" class="btn-xs btn-info btn-rounded m-b-5"
-                                                    data-id="{{ $card->id }}"
-                                                    data-url="{{ route('admin.cards.edit') }}">编辑
-                                            </button>
-                                            <button id="cards-destroy" class="btn-xs btn-danger btn-rounded m-b-5"
-                                                    data-id="{{ $card->id }}"
-                                                    data-url="{{ route('admin.cards.destroy') }}">删除
-                                            </button>
-                                        </td>
-                                    </tr>
-                                @endforeach
+                                                @if( $card->status  == 1)
+                                                    未配送
+                                                @elseif ( $card->status  == 2)
+                                                    已配送
+                                                @else
+                                                    其他
+                                                @endif
+                                            </td>
+                                            {{--<td>--}}
+                                            {{--<button id="cards-edit" class="btn-xs btn-info btn-rounded m-b-5"--}}
+                                            {{--data-id="{{ $card->id }}"--}}
+                                            {{--data-url="{{ route('admin.cards.edit') }}">编辑--}}
+                                            {{--</button>--}}
+                                            {{--<button id="cards-destroy" class="btn-xs btn-danger btn-rounded m-b-5"--}}
+                                            {{--data-id="{{ $card->id }}"--}}
+                                            {{--data-url="{{ route('admin.cards.destroy') }}">删除--}}
+                                            {{--</button>--}}
+                                            {{--</td>--}}
+                                        </tr>
+                                    @endforeach
+                                @endif
                                 </tbody>
                             </table>
-
+                            {!! $useCards->links() !!}
                         </div>
                     </div>
                 </div>

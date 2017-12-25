@@ -58,7 +58,6 @@ class CardsController
         $validator = Validator::make($request->all(), [
             'code' => 'required',
             'code_pw' => 'required',
-            'address' => 'required',
         ]);
 
         if ($validator->fails()) {
@@ -93,10 +92,13 @@ class CardsController
                 $userCards->number_count = $cards->number;
                 $userCards->number_last = $cards->number;
                 $userCards->card_source = 2;
-                $userCards->address = $request->address;
 
                 $userCards->save();
 
+                $cards = CardExcel::where('code', preg_replace('# #', '', $request->code))
+                    ->where('code_pw', $request->code_pw)
+                    ->where('status', 1)
+                    ->first();
                 $cards->status = 2;
                 $cards->user_id = $uid;
                 $cards->save();
@@ -128,10 +130,13 @@ class CardsController
                     $userCardsTwo->number_count = $cardsOnly->number_count;
                     $userCardsTwo->number_last = $cardsOnly->number_last;
                     $userCardsTwo->card_source = 2;
-                    $userCardsTwo->address = $request->address;
 
                     $userCardsTwo->save();
 
+                    $cardsOnly = UserCards::where('card_code', preg_replace('# #', '', $request->code))
+                        ->where('card_code_pw', $request->code_pw)
+                        ->where('status', 1)
+                        ->first();
                     $cardsOnly->status = 4;
                     $cardsOnly->save();
 

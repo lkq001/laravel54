@@ -104,4 +104,7 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin'], function () {
     // 用户-宅配卡保存
     Route::put('/user/cards/update', 'UserCardsController@update')->name('admin.user.cards.update');
 
+    // 宅配卡使用管理
+    Route::get('/card/use', 'CardUseController@index')->name('admin.card.use.index');
+
 });

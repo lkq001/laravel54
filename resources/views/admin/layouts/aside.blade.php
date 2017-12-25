@@ -21,7 +21,7 @@
                     <li><a href="{{ route('admin.cards.index') }}">宅配卡列表</a></li>
                     <li><a href="{{ route('admin.cards.category.index') }}">宅配卡分类</a></li>
                     <li><a href="{{ route('admin.card.excel.index') }}">导入宅配卡列表</a></li>
-                    <li><a href="ui-icons.html">用卡计划列表</a></li>
+                    <li><a href="{{ route('admin.card.use.index') }}">用卡计划列表</a></li>
                 </ul>
             </li>
             <li class="has-submenu"><a href="#"><i class="zmdi zmdi-chart"></i> <span

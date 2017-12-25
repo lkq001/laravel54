@@ -19,6 +19,7 @@ class UserCardsController
         }
 
         $cards = DB::table('user_cards')
+            ->select('user_cards.id','user_cards.card_code','cards.name','cards.image')
             ->join('cards', 'user_cards.number', '=', 'cards.number')
             ->where('user_cards.user_id', $uid)
             ->where('user_cards.status', 2)
@@ -97,7 +98,7 @@ class UserCardsController
         }
 
         $cards = DB::table('user_cards')
-            ->select('user_cards.id', 'user_cards.address', 'user_cards.card_code', 'cards.image')
+            ->select('user_cards.id', 'user_cards.address', 'user_cards.card_code', 'cards.image', 'cards.name')
             ->join('cards', 'user_cards.number', '=', 'cards.number')
             ->where('user_cards.user_id', $uid)
             ->where('user_cards.status', 2)
@@ -142,12 +143,36 @@ class UserCardsController
 
     }
 
+    public function canUseCardsInfoLists()
+    {
+
+        $uid = TokenService::getCurrnentUid();
+        if (!$uid) {
+            return false;
+        }
+
+        // 查询此宅配卡
+        $cards = CardUse::where('user_id', $uid)
+            ->orderBy('id', 'DESC')
+            ->get();
+
+        foreach ($cards as $val) {
+            $val->use_time = date('Y-m-d', strtotime($val->use_time));
+        }
+
+        return $cards;
+
+    }
+
     public function useCardByUser(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'cardsCount' => 'required|int',
             'useTime' => 'required',
-            'countNo' => 'required|int'
+            'countNo' => 'required|int',
+            'address' => 'required',
+            'tel' => 'required',
+            'username' => 'required',
         ]);
 
         if ($validator->fails()) {
@@ -181,6 +206,10 @@ class UserCardsController
                 $cardUser->status = 1;
                 $cardUser->user_id = $uid;
                 $cardUser->use_time = $request->useTime;
+                $cardUser->address = $request->address;
+                $cardUser->tel = $request->tel;
+                $cardUser->user_name = $request->username;
+                $cardUser->address = $request->address;
                 $cardUser->save();
 
                 DB::commit();
