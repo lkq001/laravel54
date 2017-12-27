@@ -28,7 +28,7 @@ return [
             'accessKey'=>'Qoz-uIzeCA0l6qjoeJrUaVY6vkcSuNMPlqNM1hX1',
             'secretKey'=>'fPbmtKeXPaJwAwlYuMEMWTe_YkFZ9jsXEeTjHKQO',
             'bucket'=>'lvxingzhe',
-            'url'=>'http://p0ztvlsi6.bkt.clouddn.com',//七牛分配的CDN域名,注意带上http://
+            'url'=>'https://images.shujugongxiang.com',//七牛分配的CDN域名,注意带上http://
 
         ]
     ],

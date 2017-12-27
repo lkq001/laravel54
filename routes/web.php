@@ -107,4 +107,42 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin'], function () {
     // 宅配卡使用管理
     Route::get('/card/use', 'CardUseController@index')->name('admin.card.use.index');
 
+    // 订单管理
+    Route::get('/order/index', 'OrderController@index')->name('admin.order.index');
+
+    // 地址管理
+    Route::get('/address/index', 'AddressController@index')->name('admin.address.index');
+    // 地址添加
+    Route::post('/address/store', 'AddressController@store')->name('admin.address.store');
+    // 地址修改
+    Route::post('/address/update', 'AddressController@update')->name('admin.address.update');
+    // 状态修改
+    Route::post('/address/status', 'AddressController@status')->name('admin.address.status');
+    // 删除
+    Route::post('/address/destroy', 'AddressController@destroy')->name('admin.address.destroy');
+
+    // 城市管理
+    Route::get('/city/index', 'CityController@index')->name('admin.city.index');
+    // 城市添加
+    Route::post('/city/store', 'CityController@store')->name('admin.city.store');
+    // 城市修改
+    Route::post('/city/update', 'CityController@update')->name('admin.city.update');
+    // 城市状态修改
+    Route::post('/city/status', 'CityController@status')->name('admin.city.status');
+    // 城市删除
+    Route::post('/city/destroy', 'CityController@destroy')->name('admin.city.destroy');
+
+    // 区域管理
+    Route::get('/area/index', 'AreaController@index')->name('admin.area.index');
+    // 区域添加
+    Route::post('/area/store', 'AreaController@store')->name('admin.area.store');
+    // 区域修改
+    Route::post('/area/update', 'AreaController@update')->name('admin.area.update');
+    // 区域状态修改
+    Route::post('/area/status', 'AreaController@status')->name('admin.area.status');
+    // 区域删除
+    Route::post('/area/destroy', 'AreaController@destroy')->name('admin.area.destroy');
+
+
+
 });

@@ -80,24 +80,3 @@
 
     </div> <!-- End Row -->
 @endsection
-
-@section('script')
-    <script src="{{ asset('admins') }}/js/cards.js"></script>
-    <script id="ueditor"></script>
-    <script>
-        var ue = UE.getEditor("ueditor");
-        ue.ready(function () {
-            //因为Laravel有防csrf防伪造攻击的处理所以加上此行
-            ue.execCommand('serverparam', '_token', '{{ csrf_token() }}');
-        });
-    </script>
-
-    <script id="editueditor"></script>
-    <script>
-        var ue = UE.getEditor("editueditor");
-        ue.ready(function () {
-            //因为Laravel有防csrf防伪造攻击的处理所以加上此行
-            ue.execCommand('serverparam', '_token', '{{ csrf_token() }}');
-        });
-    </script>
-@endsection

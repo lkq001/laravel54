@@ -26,6 +26,7 @@
                                 <tr>
                                     <th>ID</th>
                                     <th>卡号</th>
+                                    <th>卡密</th>
                                 </tr>
                                 </thead>
 
@@ -36,6 +37,7 @@
                                         <tr>
                                             <td>{{ $card->id }}</td>
                                             <td>{{ $card->code }}</td>
+                                            <td>{{ $card->code_pw }}</td>
 
                                         </tr>
                                     @endforeach

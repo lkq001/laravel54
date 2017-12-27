@@ -71,6 +71,11 @@ Route::group(['namespace' => 'Api\V1'], function () {
 
 //    Route::post('/pay/re_notify', 'PayController@redirectNotify');
 
+    Route::get('/address', 'AddressController@index');
+    Route::get('/address/city', 'AddressController@city');
+    Route::get('/address/area', 'AddressController@area');
+    Route::get('/address/city/name', 'AddressController@cityByName');
+
 
 
 });

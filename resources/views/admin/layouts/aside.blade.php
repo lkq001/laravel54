@@ -28,13 +28,12 @@
                             class="nav-label">用户宅配卡</span><span class="menu-arrow"></span></a>
                 <ul class="list-unstyled">
                     <li><a href="{{ route('admin.user.cards.index') }}">用户宅配卡列表</a></li>
-                    <li><a href="###">宅配卡使用</a></li>
                 </ul>
             </li>
             <li class="has-submenu"><a href="#"><i class="zmdi zmdi-album"></i> <span
                             class="nav-label">订单管理</span><span class="menu-arrow"></span></a>
                 <ul class="list-unstyled">
-                    <li><a href="components-grid.html">订单列表</a></li>
+                    <li><a href="{{ route('admin.order.index') }}">订单列表</a></li>
                 </ul>
             </li>
             <li class="has-submenu"><a href="#"><i class="zmdi zmdi-collection-text"></i> <span
@@ -47,6 +46,13 @@
                             class="menu-arrow"></span></a>
                 <ul class="list-unstyled">
                     <li><a href="{{ route('admin.admins.index') }}">管理员列表</a></li>
+                </ul>
+            </li>
+            <li class="has-submenu"><a href="#"><i class="zmdi zmdi-format-list-bulleted"></i> <span class="nav-label">地址管理</span><span
+                            class="menu-arrow"></span></a>
+                <ul class="list-unstyled">
+                    <li><a href="{{ route('admin.address.index') }}">省份管理</a></li>
+                    <li><a href="{{ route('admin.city.index') }}">城市管理</a></li>
                 </ul>
             </li>
             {{--<li class="has-submenu"><a href="#"><i class="zmdi zmdi-chart"></i> <span--}}
