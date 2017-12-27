@@ -73,8 +73,9 @@ Route::group(['namespace' => 'Api\V1'], function () {
 
     Route::get('/address', 'AddressController@index');
     Route::get('/address/city', 'AddressController@city');
-    Route::get('/address/area', 'AddressController@area');
+    Route::get('/address/areas', 'AddressController@area');
     Route::get('/address/city/name', 'AddressController@cityByName');
+    Route::get('/address/area/name', 'AddressController@areaByName');
 
 
 
