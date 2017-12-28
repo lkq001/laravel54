@@ -76,6 +76,14 @@ Route::group(['namespace' => 'Api\V1'], function () {
     Route::get('/address/areas', 'AddressController@area');
     Route::get('/address/city/name', 'AddressController@cityByName');
     Route::get('/address/area/name', 'AddressController@areaByName');
+    Route::get('/user/address/info', 'AddressController@getUserInfo');
+
+    // 保存地址信息
+    Route::post('/user/save/name', 'UserAddressController@saveAddress');
+
+    // 获取手机号验证码
+    Route::get('/phone/code', 'UserAddressController@getPhoneCode');
+    Route::post('/phone/update', 'UserAddressController@phoneUpdate');
 
 
 

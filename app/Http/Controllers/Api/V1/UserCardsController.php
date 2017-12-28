@@ -209,7 +209,6 @@ class UserCardsController
                 $cardUser->address = $request->address;
                 $cardUser->tel = $request->tel;
                 $cardUser->user_name = $request->username;
-                $cardUser->address = $request->address;
                 $cardUser->save();
 
                 DB::commit();

@@ -16,6 +16,7 @@ use App\Model\Cards;
 use App\Model\Order;
 use App\Model\OrderProduct;
 use App\Model\UserAddress;
+use App\Model\Users;
 use Illuminate\Support\Facades\DB;
 use Mockery\Exception;
 
@@ -166,6 +167,7 @@ class OrderService
         $snap['totalCount'] = $status['totalCount'];
         $snap['pStatus'] = $status['pStatusArray'];
         $snap['snapAddress'] = json_encode($this->getUserAddress());
+        $snap['tel'] = $this->getUserInfo();
         $snap['snapName'] = $this->products[0]['name'];
         $snap['snapImg'] = $this->products[0]['image'];
 
@@ -190,6 +192,7 @@ class OrderService
             $order->snap_name = $snap['snapName'];
             $order->snap_address = $snap['snapAddress'];
             $order->snap_items = json_encode($snap['pStatus']);
+            $order->tel = $snap['tel'];
 
             $order->save();
 
@@ -225,6 +228,19 @@ class OrderService
             ];
         }
         return $userAddress->toArray();
+    }
+
+    private function getUserInfo()
+    {
+        $userInfo = Users::where('id', $this->uid)->first();
+        if (!$userInfo) {
+            return [
+                'code' => '404',
+                'msg' => '用户收货地址不存在，下单失败',
+                'errorCode' => '60001'
+            ];
+        }
+        return $userInfo->tel;
     }
 
     /**

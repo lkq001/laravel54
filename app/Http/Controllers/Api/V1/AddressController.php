@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Api\V1;
 use App\Model\Address;
 use App\Model\Area;
 use App\Model\City;
+use App\Model\Users;
+use App\Service\TokenService;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Validator;
@@ -29,26 +31,62 @@ class AddressController extends Controller
     //
     public function index(Request $request)
     {
+        // 查询该用户的默认地址信息
+        $uid = TokenService::getCurrnentUid();
+        if (!$uid) {
+            return response()->json([401, '用户信息错误']);
+        }
+        $user = Users::where('id', $uid)->first();
+        if (!$user) {
+            return response()->json([401, '地址信息错误']);
+        }
+
         $addressLists = self::$address->where('status', 1)
             ->orderBy('id')->get();
 
         $address = [];
+        $keyIndex = 0;
         if ($addressLists) {
-            foreach ($addressLists as $value) {
+            foreach ($addressLists as $key => $value) {
                 $address[] = $value->name;
+                if ($value->name == $user->province) {
+                    $keyIndex = $key;
+                }
             }
         }
 
-        return $address;
+        return [
+            'address' => $address,
+            'keyIndex' => $keyIndex
+        ];
     }
 
     //
     public function city(Request $request)
     {
-        $addressLists = self::$address->where('status', 1)
-            ->orderBy('id')->first();
+        // 查询该用户的默认地址信息
+        $uid = TokenService::getCurrnentUid();
+        if (!$uid) {
+            return response()->json([401, '用户信息错误']);
+        }
+        $user = Users::where('id', $uid)->first();
+        if (!$user) {
+            return response()->json([401, '地址信息错误']);
+        }
 
-        $citys = [];
+        if ($user->province) {
+            $addressLists = self::$address->where('status', 1)
+                ->where('name', $user->province)
+                ->orderBy('id')->first();
+            if (!$addressLists) {
+                $addressLists = self::$address->where('status', 1)
+                    ->orderBy('id')->first();
+            }
+        } else {
+            $addressLists = self::$address->where('status', 1)
+                ->orderBy('id')->first();
+
+        }
 
         if ($addressLists) {
             $citysLists = self::$citys->where('pid', $addressLists->id)
@@ -57,40 +95,74 @@ class AddressController extends Controller
         }
 
 
+        $citys = [];
+        $keyIndex = 0;
         if ($citysLists) {
-            foreach ($citysLists as $value) {
+            foreach ($citysLists as $key => $value) {
                 $citys[] = $value->name;
+                if ($value->name == $user->city) {
+                    $keyIndex = $key;
+                }
             }
         }
 
-        return $citys;
+        return [
+            'citys' => $citys,
+            'keyIndex' => $keyIndex
+        ];
     }
 
     public function area(Request $request)
     {
-        // 默认
-        $addressInfo = self::$address->where('status', 1)
-            ->orderBy('id')->first();
-
-        if (!$addressInfo) {
-            return [
-                'code' => '404',
-                'msg' => '省份不存在',
-                'errorCode' => '80000'
-            ];
+        // 查询该用户的默认地址信息
+        $uid = TokenService::getCurrnentUid();
+        if (!$uid) {
+            return response()->json([401, '用户信息错误']);
+        }
+        $user = Users::where('id', $uid)->first();
+        if (!$user) {
+            return response()->json([401, '地址信息错误']);
         }
 
-        // 城市
-        $cityInfo = self::$citys->where('pid', $addressInfo->id)
-            ->where('status', 1)
-            ->orderBy('id')->first();
+        if ($user->province) {
+            $addressInfo = self::$address->where('status', 1)
+                ->where('name', $user->province)
+                ->orderBy('id')->first();
+            if (!$addressInfo) {
+                $addressInfo = self::$address->where('status', 1)
+                    ->orderBy('id')->first();
+            }
+        } else {
+            $addressInfo = self::$address->where('status', 1)
+                ->orderBy('id')->first();
+
+        }
+
+        if (!$addressInfo) {
+            return response()->json([401, '地址信息错误']);
+        }
+        if ($user->city) {
+            // 城市
+            $cityInfo = self::$citys->where('pid', $addressInfo->id)
+                ->where('name', $user->city)
+                ->where('status', 1)
+                ->orderBy('id')->first();
+            if (!$cityInfo) {
+                // 城市
+                $cityInfo = self::$citys->where('pid', $addressInfo->id)
+                    ->where('status', 1)
+                    ->orderBy('id')->first();
+            }
+        } else {
+            // 城市
+            $cityInfo = self::$citys->where('pid', $addressInfo->id)
+                ->where('status', 1)
+                ->orderBy('id')->first();
+        }
+
 
         if (!$cityInfo) {
-            return [
-                'code' => '404',
-                'msg' => '城市不存在',
-                'errorCode' => '80000'
-            ];
+            return response()->json([401, '城市信息错误']);
         }
 
         $areaLists = self::$areas->where('pid', $cityInfo->id)
@@ -98,13 +170,20 @@ class AddressController extends Controller
             ->orderBy('id')->get();
 
         $areas = [];
+        $keyIndex = 0;
         if ($areaLists) {
-            foreach ($areaLists as $value) {
+            foreach ($areaLists as$key =>  $value) {
                 $areas[] = $value->name;
+                if ($value->name == $user->area) {
+                    $keyIndex = $key;
+                }
             }
         }
 
-        return $areas;
+        return [
+            'areas' => $areas,
+            'keyIndex' => $keyIndex
+        ];
     }
 
 
@@ -170,7 +249,6 @@ class AddressController extends Controller
             ->where('status', 1)
             ->orderBy('id')->first();
 
-
         $areas = [];
         // 选择第一个城市的id, 查询区域
         $areasLists = self::$areas->where('pid', $cityInfo->id)->orderBy('id')->get();
@@ -182,6 +260,20 @@ class AddressController extends Controller
         }
 
         return $areas;
+    }
+
+    public function getUserInfo()
+    {
+        // 查询该用户的默认地址信息
+        $uid = TokenService::getCurrnentUid();
+        if (!$uid) {
+            return response()->json([401, '用户信息错误']);
+        }
+        $user = Users::where('id', $uid)->first();
+        if ($user) {
+            return $user;
+        }
+        return response()->json([401, '用户信息错误']);
     }
 
 }
